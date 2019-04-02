@@ -489,10 +489,11 @@ class CI_Loader {
 	 * @param	bool	$return	Whether to return the view output
 	 *				or leave it to the Output class
 	 * @return	object|string
+     * $subRoute 변수 추가
 	 */
-	public function view($view, $vars = array(), $return = FALSE)
+	public function view($view, $vars = array(), $return = FALSE,$subRoute)
 	{
-		return $this->_ci_load(array('_ci_view' => $view, '_ci_vars' => $this->_ci_prepare_view_vars($vars), '_ci_return' => $return));
+		return $this->_ci_load(array('_ci_view' => $view, '_ci_vars' => $this->_ci_prepare_view_vars($vars), '_ci_return' => $return),$subRoute);
 	}
 
 	// --------------------------------------------------------------------
@@ -878,8 +879,9 @@ class CI_Loader {
 	 * @used-by	CI_Loader::file()
 	 * @param	array	$_ci_data	Data to load
 	 * @return	object
+     * $subRoute 변수 추가
 	 */
-	protected function _ci_load($_ci_data)
+	protected function _ci_load($_ci_data,$subRoute=null)
 	{
 		// Set the default data variables
 		foreach (array('_ci_view', '_ci_vars', '_ci_path', '_ci_return') as $_ci_val)
@@ -902,9 +904,9 @@ class CI_Loader {
 
 			foreach ($this->_ci_view_paths as $_ci_view_file => $cascade)
 			{
-				if (file_exists($_ci_view_file.$_ci_file))
+				if (file_exists($_ci_view_file.$subRoute.$_ci_file))
 				{
-					$_ci_path = $_ci_view_file.$_ci_file;
+					$_ci_path = $_ci_view_file.$subRoute.$_ci_file;
 					$file_exists = TRUE;
 					break;
 				}
